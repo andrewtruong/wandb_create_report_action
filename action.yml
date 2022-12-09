@@ -1,0 +1,28 @@
+name: Generate Report Action
+run-name: ${{ github.actor }} is generating a new report.
+on: [push]
+jobs:
+  Generate-Report:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout Repo
+      uses: actions/checkout@v3
+    - name: Setup Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'
+        cache: 'pip'
+    - name: Install wandb
+      run: pip install -r requirements.txt
+    - name: Generate a new report
+      id: generate-report
+      run: |
+        report_url=$(python make_report.py)
+        echo "REPORT_URL=$report_url" >> $GITHUB_OUTPUT
+      env:
+        WANDB_API_KEY: ${{ secrets.wandb_api_key }}
+    - name: Echo Output
+      run: |
+        echo "Generated report at ${{ steps.generate-report.outputs.REPORT_URL }}"
+        echo "Generated report at ${{ steps.generate-report.outputs.REPORT_URL }}" >> $GITHUB_STEP_SUMMARY
+        echo '<iframe src="${{ steps.generate-report.outputs.REPORT_URL }}" height="600" width=400" title="wandb iframe"></iframe>' >> $GITHUB_STEP_SUMMARY
