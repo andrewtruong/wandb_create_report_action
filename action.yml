@@ -1,4 +1,7 @@
-name: Generate Report Action
+name: Generate Weights & Biases Report
+description: Generate a Weights & Biases Report automatically via a template.  See readme for details.
+icon: book-open
+color: yellow
 run-name: ${{ github.actor }} is generating a new report.
 on: [push]
 jobs:
