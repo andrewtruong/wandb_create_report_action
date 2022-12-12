@@ -7,6 +7,9 @@ inputs:
   wandb_api_key:
     description: Your wandb API key available at `/authorize`.  We recommend setting this in github secrets!
     required: true
+  report_template_filename:
+    description: The .py file you want to use for templating.
+    required: true
 runs:
   using: composite
   steps:
@@ -23,7 +26,7 @@ runs:
   - name: Generate a new report
     id: generate-report
     run: |
-      report_url=$(python make_report.py)
+      report_url=$(python ${{ inputs.report_template_filename }}.py)
       echo "REPORT_URL=$report_url" >> $GITHUB_OUTPUT
     shell: bash
     env:
