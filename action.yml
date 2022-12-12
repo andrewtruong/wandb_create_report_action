@@ -7,7 +7,6 @@ inputs:
   wandb_api_key:
     description: Your wandb API key available at `/authorize`.  We recommend setting this in github secrets!
     required: true
-    default: ${{ secrets.wandb_api_key }}
 runs:
   using: composite
   steps:
