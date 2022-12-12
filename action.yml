@@ -26,7 +26,7 @@ runs:
   - name: Generate a new report
     id: generate-report
     run: |
-      report_url=$(python ${{ inputs.report_template_filename }}.py)
+      report_url=$(python ${{ inputs.report_template_filename }})
       echo "REPORT_URL=$report_url" >> $GITHUB_OUTPUT
     shell: bash
     env:
