@@ -3,6 +3,11 @@ description: Generate a Weights & Biases Report automatically via a template.  S
 branding:
   icon: book-open
   color: yellow
+inputs:
+  wandb_api_key:
+    description: Your wandb API key available at `/authorize`.  We recommend setting this in github secrets!
+    required: true
+    default: ${{ secrets.wandb_api_key }}
 runs:
   using: composite
   steps:
@@ -23,10 +28,9 @@ runs:
       echo "REPORT_URL=$report_url" >> $GITHUB_OUTPUT
     shell: bash
     env:
-      WANDB_API_KEY: ${{ secrets.wandb_api_key }}
+      WANDB_API_KEY: ${{ inputs.wandb_api_key }}
   - name: Echo Output
     run: |
       echo "Generated report at ${{ steps.generate-report.outputs.REPORT_URL }}"
       echo "Generated report at ${{ steps.generate-report.outputs.REPORT_URL }}" >> $GITHUB_STEP_SUMMARY
-      echo '<iframe src="${{ steps.generate-report.outputs.REPORT_URL }}" height="600" width=400" title="wandb iframe"></iframe>' >> $GITHUB_STEP_SUMMARY
     shell: bash
